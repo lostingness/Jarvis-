@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Outer Arc Ring -->
+    <path
+        android:pathData="M54,26 A28,28 0 1,1 53.9,26"
+        android:strokeColor="#00F0FF"
+        android:strokeWidth="2.5"
+        android:fillColor="#00000000" />
+
+    <!-- Reactor segments -->
+    <path
+        android:pathData="M54,29 L54,34 M54,74 L54,79 M29,54 L34,54 M74,54 L79,54 M36,36 L40,40 M68,68 L72,72 M36,72 L40,68 M68,40 L72,36"
+        android:strokeColor="#38BDF8"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+
+    <!-- Middle Ring -->
+    <path
+        android:pathData="M54,35 A19,19 0 1,1 53.9,35"
+        android:strokeColor="#0284C7"
+        android:strokeWidth="2"
+        android:fillColor="#00000000" />
+
+    <!-- Inner Core Glow -->
+    <path
+        android:pathData="M54,42 A12,12 0 1,1 53.9,42"
+        android:fillColor="#00E5FF" />
+
+    <!-- Bright Center Point -->
+    <path
+        android:pathData="M54,49 A5,5 0 1,1 53.9,49"
+        android:fillColor="#FFFFFF" />
+
+    <!-- Subtle audio wave bars below core -->
+    <path
+        android:pathData="M44,83 L44,85 M49,82 L49,86 M54,81 L54,87 M59,82 L59,86 M64,83 L64,85"
+        android:strokeColor="#00F0FF"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+</vector>

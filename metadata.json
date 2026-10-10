@@ -1,0 +1,6 @@
+{
+  "name": "Jarvis",
+  "description": "Voice-to-voice real-time AI assistant with smart device actions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
