@@ -71,7 +71,7 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
 
     private val audioTrackPlayer: AudioTrackPlayer = AudioTrackPlayer(
         onPlaybackStarted = {
-            addLog("SPEAKER", "Audio playback started through device speaker")
+            addLog("SPEAKER", "Audio playback started through speaker")
             _uiState.update { it.copy(assistantState = AssistantState.SPEAKING) }
         },
         onPlaybackEnded = {
@@ -148,7 +148,7 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
                     _uiState.update {
                         it.copy(
                             assistantState = AssistantState.LISTENING,
-                            jarvisTranscript = "Ready. Speak to me..."
+                            jarvisTranscript = "Listening... Speak to me."
                         )
                     }
                 }
@@ -221,11 +221,6 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun onUserSpeechComplete(userPcmBytes: ByteArray) {
-        val client = geminiLiveClient
-        if (client != null && client.isConnected) {
-            return
-        }
-
         viewModelScope.launch(Dispatchers.Main) {
             addLog("VOICE_TURN", "Processing voice utterance (${userPcmBytes.size} bytes)...")
             _uiState.update {
@@ -279,8 +274,8 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
         audioTrackPlayer.startPlaybackLoop()
         audioRecordManager.startRecording()
 
-        // Confirmation tone so user knows Jarvis is listening
-        audioTrackPlayer.playDiagnosticTestTone(523.25, 0.2)
+        // Confirmation tone so user knows Jarvis is active and speaker works
+        audioTrackPlayer.playDiagnosticTestTone(523.25, 0.25)
 
         geminiLiveClient?.connect()
     }
@@ -335,7 +330,6 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
             )
         }
 
-        // Check for instant local command execution
         val lower = prompt.lowercase(Locale.ROOT)
         when {
             lower.contains("whatsapp") -> {
@@ -382,15 +376,10 @@ class JarvisViewModel(application: Application) : AndroidViewModel(application) 
             }
         }
 
-        val client = geminiLiveClient
-        if (client != null && client.isConnected) {
-            client.sendTextPrompt(prompt)
-        } else {
-            viewModelScope.launch(Dispatchers.Main) {
-                addLog("FALLBACK", "Processing: $prompt")
-                val response = fallbackService.generateVoiceResponse(prompt)
-                handleVoiceResponse(response)
-            }
+        viewModelScope.launch(Dispatchers.Main) {
+            addLog("FALLBACK", "Processing voice/text: $prompt")
+            val response = fallbackService.generateVoiceResponse(prompt)
+            handleVoiceResponse(response)
         }
     }
 
